@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Extegral/Enigmatic-Legacy/issues"
+[[mods]]
+modId="armorless"
+version="FORGE-1.15.2-v2.0"
+displayName="Armorless & More"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/enigmatic-legacy"
+logoFile="armorless_logo.png"
+credits="Jusey1z, the former author of this mod."
+authors="Integral"
+description='''
+This mod adds invisible armor with no protection stats, as well as a couple other minor features.
+'''
+[[dependencies.armorless]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31.1.0,)" 
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armorless]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"

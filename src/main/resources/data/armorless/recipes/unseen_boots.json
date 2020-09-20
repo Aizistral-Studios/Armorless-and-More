@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [],
+  "pattern": [
+    "   ",
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "result": {
+    "item": "armorless:unseen_armor_feet"
+  }
+}
