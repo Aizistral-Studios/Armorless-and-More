@@ -1,0 +1,17 @@
+So, this is probably gonna become my tiny mod which adds in small stuff into a vanilla experience that I wanted personally. Armorless Armor was the first thing...
+
+What is Armorless Armor? It's a set of "armor" which doesn't give any armor or armor toughness. Because of this, it doesn't break since it cannot absorb damage for you and is essentially useless if you are doing a normal playthrough or playstyle. The idea is to have a set of armor when one wants to do a playthrough of the game without wearing any armor but still wants access to some of the quality of life enchantments like Respiration, Aqua Affinity, Feather Falling, etc (though you can still apply Protectron but I left that in on purpose for people who wants it)... The armor has no textures and shall be invisible on you but it uses chainmail armor icons so you know where it is. Oh, and to craft this set? You simply just need a chainmail armor piece and use it in a normal crafting menu to turn it into an armorless version. Simple as that...
+
+As for extra things I've wanted to do...
+
+For now, I only got this one new enchantment: "Sharpshooter" for the crossbow. It is a damage enchantment for the Crossbow so if a player prefers a Crossbow over a bow, they can do that without being forced to play the niche playstyle of the crossbow with Piercing or using Multishot + rockets. However, to keep things balance. The Sharpshooter enchantment only works on arrow and conflicts with Piercing and Multishot. So you have to pick which style you want and cannot combine this with the others. This also means that Sharpshooter cannot be the best enchantment for all situations since the other two are still the best in their respective niche situations.
+
+But how does this damage enchantment exactly work? It replaces the minimum damage of the crossbow in a formula of (6 + 3 * lvl). 6 is already the crossbow's minimum damage (crossbows do a random damage number of 6 - 11). This means with just rank 1 of this new enchantment, you'll be doing 9 - 11 damage instead of 6 - 11. Then it adds 3 from there on out. The second rank and higher then would have no RNG and make the crossbow do a solid 12, 15, 18, and 21 damage respectively for each enchantment level (2, 3, 4, and 5). So, no RNG and higher damage. The enchantment can be gained via the table or found in loot. It is considered a rare enchantment though.
+
+So, this fixes the terrible RNG problem with crossbows in Java edition while also giving the crossbow their own damage focus enchantment. It doesn't replace multishot and piercing completely as well since piercing is more effective against large groups while multishot is still great with rockets...
+
+ 
+
+~Credits~
+-This mod was made on MCreator as I work better with an interface and with a base script I can add to and edit, than creating brand new scripts out of nothing.
+-My friend https://www.curseforge.com/members/tbr0skl/projects for helping me with the crossbow enchantment's effect.
