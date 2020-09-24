@@ -1,6 +1,6 @@
 # Armorless & More
 
-**Current Version:** FORGE-1.15.2-v2.0
+**Current Version:** FORGE-1.15.2-v2.1.0
 
 **Minecraft Version:** 1.15.2
 
