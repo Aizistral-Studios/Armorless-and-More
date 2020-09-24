@@ -9,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -16,12 +17,15 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.javafmlmod.FMLModContainer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.integral.armorless.enchantments.CeaselessEnchantment;
 import com.integral.armorless.enchantments.SharpshooterEnchantment;
 import com.integral.armorless.handlers.ArmorlessEventHandler;
+import com.integral.armorless.items.PhantomIngot;
 import com.integral.armorless.items.UnseenArmor;
 
 import java.util.stream.Collectors;
@@ -32,10 +36,12 @@ public class ArmorlessMod {
 	private static final Logger LOGGER = LogManager.getLogger();
 	public static final String MODID = "armorless";
 	public static final String NAME = "Armorless & More";
-	public static final String VERSION = "FORGE-1.15.2-v2.0";
+	public static final String VERSION = "FORGE-1.15.2-v2.1.0";
 
 	public static SharpshooterEnchantment sharpshooterEnchantment;
 	public static CeaselessEnchantment ceaselessEnchantment;
+
+	public static PhantomIngot phantomIngot;
 
 	public static UnseenArmor unseenHelmet;
 	public static UnseenArmor unseenChestplate;
@@ -51,6 +57,8 @@ public class ArmorlessMod {
 
 		ArmorlessMod.sharpshooterEnchantment = new SharpshooterEnchantment();
 		ArmorlessMod.ceaselessEnchantment = new CeaselessEnchantment();
+
+		ArmorlessMod.phantomIngot = new PhantomIngot();
 
 		ArmorlessMod.unseenHelmet = new UnseenArmor(EquipmentSlotType.HEAD);
 		ArmorlessMod.unseenChestplate = new UnseenArmor(EquipmentSlotType.CHEST);
@@ -118,6 +126,7 @@ public class ArmorlessMod {
 		@SubscribeEvent
 		public static void onItemRegistry(final RegistryEvent.Register<Item> event) {
 			event.getRegistry().registerAll(
+					ArmorlessMod.phantomIngot,
 					ArmorlessMod.unseenHelmet,
 					ArmorlessMod.unseenChestplate,
 					ArmorlessMod.unseenLeggings,

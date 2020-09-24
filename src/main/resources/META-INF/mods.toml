@@ -3,7 +3,7 @@ loaderVersion="[31,)"
 issueTrackerURL="https://github.com/Extegral/Enigmatic-Legacy/issues"
 [[mods]]
 modId="armorless"
-version="FORGE-1.15.2-v2.0"
+version="FORGE-1.15.2-v2.1.0"
 displayName="Armorless & More"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/enigmatic-legacy"
 logoFile="armorless_logo.png"
