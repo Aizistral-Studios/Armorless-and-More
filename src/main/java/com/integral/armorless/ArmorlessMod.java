@@ -9,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -36,7 +37,7 @@ public class ArmorlessMod {
 	private static final Logger LOGGER = LogManager.getLogger();
 	public static final String MODID = "armorless";
 	public static final String NAME = "Armorless & More";
-	public static final String VERSION = "FORGE-1.15.2-v2.1.0";
+	public static final String VERSION = "FORGE-1.16.3-v2.2.0";
 
 	public static SharpshooterEnchantment sharpshooterEnchantment;
 	public static CeaselessEnchantment ceaselessEnchantment;
@@ -74,7 +75,6 @@ public class ArmorlessMod {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onServerStarting);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -86,7 +86,7 @@ public class ArmorlessMod {
 		ArmorlessEventHandler eventHandler = new ArmorlessEventHandler();
 
 		MinecraftForge.EVENT_BUS.register(eventHandler);
-		FMLJavaModLoadingContext.get().getModEventBus().register(eventHandler);
+		//FMLJavaModLoadingContext.get().getModEventBus().register(eventHandler);
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -105,10 +105,6 @@ public class ArmorlessMod {
 		// NO-OP
 	}
 
-	private void onServerStarting(final FMLServerStartingEvent event) {
-		// NO-OP
-	}
-
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
 		@SubscribeEvent
@@ -118,9 +114,13 @@ public class ArmorlessMod {
 
 		@SubscribeEvent
 		public static void onEnchantmentRegistry(final RegistryEvent.Register<Enchantment> event) {
-			event.getRegistry().registerAll(
-					ArmorlessMod.sharpshooterEnchantment,
-					ArmorlessMod.ceaselessEnchantment);
+
+			if (!ArmorlessEventHandler.isEnigmaticLegacyLoaded()) {
+				event.getRegistry().registerAll(
+						ArmorlessMod.sharpshooterEnchantment,
+						ArmorlessMod.ceaselessEnchantment);
+
+			}
 		}
 
 		@SubscribeEvent

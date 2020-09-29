@@ -21,6 +21,7 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 
 public class ArmorlessEventHandler {
 
@@ -28,6 +29,10 @@ public class ArmorlessEventHandler {
 
 	@SubscribeEvent
 	public void onItemUse(LivingEntityUseItemEvent.Stop event) {
+
+		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
+			return;
+
 		if (event.getItem().getItem() instanceof CrossbowItem && event.getEntityLiving() instanceof PlayerEntity) {
 			CrossbowItem crossbow = (CrossbowItem) event.getItem().getItem();
 			ItemStack crossbowStack = event.getItem();
@@ -61,6 +66,10 @@ public class ArmorlessEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerClick(PlayerInteractEvent event) {
+
+		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
+			return;
+
 		if (event instanceof PlayerInteractEvent.RightClickItem || event instanceof PlayerInteractEvent.RightClickBlock || event instanceof PlayerInteractEvent.EntityInteract) {
 			if (event.getItemStack().getItem() instanceof CrossbowItem) {
 				ItemStack itemstack = event.getItemStack();
@@ -101,6 +110,10 @@ public class ArmorlessEventHandler {
 
 	@SubscribeEvent
 	public void onHurt(LivingHurtEvent event) {
+
+		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
+			return;
+
 		if (event.getSource() != null && event.getSource().getImmediateSource() instanceof AbstractArrowEntity) {
 			AbstractArrowEntity arrow = (AbstractArrowEntity) event.getSource().getImmediateSource();
 
@@ -118,6 +131,10 @@ public class ArmorlessEventHandler {
 				}
 			}
 		}
+	}
+
+	public static boolean isEnigmaticLegacyLoaded() {
+		return ModList.get().isLoaded("enigmaticlegacy");
 	}
 
 }
