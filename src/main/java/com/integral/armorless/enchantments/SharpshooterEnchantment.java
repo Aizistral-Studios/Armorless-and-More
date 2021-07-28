@@ -2,19 +2,17 @@ package com.integral.armorless.enchantments;
 
 import com.integral.armorless.ArmorlessMod;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 public class SharpshooterEnchantment extends Enchantment {
-	public SharpshooterEnchantment(final EquipmentSlotType... slots) {
-		super(Enchantment.Rarity.RARE, EnchantmentType.CROSSBOW, slots);
+	public SharpshooterEnchantment(final EquipmentSlot... slots) {
+		super(Enchantment.Rarity.RARE, EnchantmentCategory.CROSSBOW, slots);
 		this.setRegistryName(new ResourceLocation(ArmorlessMod.MODID, "sharpshooter"));
 	}
 

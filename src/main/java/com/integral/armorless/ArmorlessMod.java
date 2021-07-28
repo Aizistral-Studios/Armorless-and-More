@@ -1,10 +1,9 @@
 package com.integral.armorless;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,7 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 
@@ -61,10 +59,10 @@ public class ArmorlessMod {
 
 		ArmorlessMod.phantomIngot = new PhantomIngot();
 
-		ArmorlessMod.unseenHelmet = new UnseenArmor(EquipmentSlotType.HEAD);
-		ArmorlessMod.unseenChestplate = new UnseenArmor(EquipmentSlotType.CHEST);
-		ArmorlessMod.unseenLeggings = new UnseenArmor(EquipmentSlotType.LEGS);
-		ArmorlessMod.unseenBoots = new UnseenArmor(EquipmentSlotType.FEET);
+		ArmorlessMod.unseenHelmet = new UnseenArmor(EquipmentSlot.HEAD);
+		ArmorlessMod.unseenChestplate = new UnseenArmor(EquipmentSlot.CHEST);
+		ArmorlessMod.unseenLeggings = new UnseenArmor(EquipmentSlot.LEGS);
+		ArmorlessMod.unseenBoots = new UnseenArmor(EquipmentSlot.FEET);
 
 		/*
 		 * Subscribing our setup methods to ModEventBus, so that they actually

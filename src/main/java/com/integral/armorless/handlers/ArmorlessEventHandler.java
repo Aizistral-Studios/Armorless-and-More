@@ -6,17 +6,14 @@ import com.google.common.eventbus.Subscribe;
 import com.integral.armorless.ArmorlessMod;
 import com.integral.armorless.helpers.CrossbowHelper;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -33,7 +30,7 @@ public class ArmorlessEventHandler {
 		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
 			return;
 
-		if (event.getItem().getItem() instanceof CrossbowItem && event.getEntityLiving() instanceof PlayerEntity) {
+		if (event.getItem().getItem() instanceof CrossbowItem && event.getEntityLiving() instanceof Player) {
 			CrossbowItem crossbow = (CrossbowItem) event.getItem().getItem();
 			ItemStack crossbowStack = event.getItem();
 
@@ -57,8 +54,8 @@ public class ArmorlessEventHandler {
 			float f = CrossbowItem.getPowerForTime(i, crossbowStack);
 			if (f >= 1.0F && !CrossbowItem.isCharged(crossbowStack) && CrossbowHelper.hasAmmo(event.getEntityLiving(), crossbowStack)) {
 				CrossbowItem.setCharged(crossbowStack, true);
-				SoundCategory soundcategory = event.getEntityLiving() instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE;
-				event.getEntityLiving().level.playSound((PlayerEntity) null, event.getEntityLiving().getX(), event.getEntityLiving().getY(), event.getEntityLiving().getZ(), SoundEvents.CROSSBOW_LOADING_END, soundcategory, 1.0F, 1.0F / (ArmorlessEventHandler.theySeeMeRollin.nextFloat() * 0.5F + 1.0F) + 0.2F);
+				SoundSource soundcategory = event.getEntityLiving() instanceof Player ? SoundSource.PLAYERS : SoundSource.HOSTILE;
+				event.getEntityLiving().level.playSound((Player) null, event.getEntityLiving().getX(), event.getEntityLiving().getY(), event.getEntityLiving().getZ(), SoundEvents.CROSSBOW_LOADING_END, soundcategory, 1.0F, 1.0F / (ArmorlessEventHandler.theySeeMeRollin.nextFloat() * 0.5F + 1.0F) + 0.2F);
 			}
 
 		}
@@ -93,16 +90,16 @@ public class ArmorlessEventHandler {
 				if (CrossbowItem.isCharged(itemstack)) {
 					CrossbowHelper.fireProjectiles(event.getWorld(), event.getPlayer(), event.getHand(), itemstack, CrossbowItem.getShootingPower(itemstack), 1.0F);
 					CrossbowItem.setCharged(itemstack, false);
-					event.setCancellationResult(ActionResultType.CONSUME);
+					event.setCancellationResult(InteractionResult.CONSUME);
 				} else if (!event.getPlayer().getProjectile(itemstack).isEmpty()) {
 					if (!CrossbowItem.isCharged(itemstack)) {
 						((CrossbowItem) Items.CROSSBOW).startSoundPlayed = false;
 						((CrossbowItem) Items.CROSSBOW).midLoadSoundPlayed = false;
 						event.getPlayer().startUsingItem(event.getHand());
 					}
-					event.setCancellationResult(ActionResultType.CONSUME);
+					event.setCancellationResult(InteractionResult.CONSUME);
 				} else {
-					event.setCancellationResult(ActionResultType.FAIL);
+					event.setCancellationResult(InteractionResult.FAIL);
 				}
 			}
 		}
@@ -114,8 +111,8 @@ public class ArmorlessEventHandler {
 		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
 			return;
 
-		if (event.getSource() != null && event.getSource().getDirectEntity() instanceof AbstractArrowEntity) {
-			AbstractArrowEntity arrow = (AbstractArrowEntity) event.getSource().getDirectEntity();
+		if (event.getSource() != null && event.getSource().getDirectEntity() instanceof AbstractArrow) {
+			AbstractArrow arrow = (AbstractArrow) event.getSource().getDirectEntity();
 
 			for (String tag : arrow.getTags()) {
 

@@ -5,32 +5,27 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.integral.armorless.ArmorlessMod;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3d;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ICrossbowUser;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.CrossbowAttackMob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class CrossbowHelper {
 
@@ -64,8 +59,8 @@ public class CrossbowHelper {
 			ItemStack itemstack;
 			if (!creativeUsingArrows && !isCreative && !bonusCycles) {
 				itemstack = ammo.split(1);
-				if (ammo.isEmpty() && living instanceof PlayerEntity) {
-					((PlayerEntity) living).inventory.removeItem(ammo);
+				if (ammo.isEmpty() && living instanceof Player) {
+					((Player) living).getInventory().removeItem(ammo);
 				}
 			} else {
 				itemstack = ammo.copy();
@@ -78,7 +73,7 @@ public class CrossbowHelper {
 
 	public static boolean hasAmmo(LivingEntity entityIn, ItemStack stack) {
 		int requestedAmmo = 1;
-		boolean isCreative = entityIn instanceof PlayerEntity && ((PlayerEntity) entityIn).abilities.instabuild;
+		boolean isCreative = entityIn instanceof Player && ((Player) entityIn).getAbilities().instabuild;
 		ItemStack itemstack = entityIn.getProjectile(stack);
 		ItemStack itemstack1 = itemstack.copy();
 
@@ -99,13 +94,13 @@ public class CrossbowHelper {
 		return true;
 	}
 
-	public static void fireProjectiles(World worldIn, LivingEntity shooter, Hand handIn, ItemStack stack, float velocityIn, float inaccuracyIn) {
+	public static void fireProjectiles(Level worldIn, LivingEntity shooter, InteractionHand handIn, ItemStack stack, float velocityIn, float inaccuracyIn) {
 		List<ItemStack> list = CrossbowItem.getChargedProjectiles(stack);
 		float[] afloat = CrossbowItem.getShotPitches(shooter.getRandom());
 
 		for (int i = 0; i < list.size(); ++i) {
 			ItemStack itemstack = list.get(i);
-			boolean flag = shooter instanceof PlayerEntity && ((PlayerEntity) shooter).abilities.instabuild;
+			boolean flag = shooter instanceof Player && ((Player) shooter).getAbilities().instabuild;
 			if (!itemstack.isEmpty()) {
 				if (i == 0) {
 					CrossbowHelper.fireProjectile(worldIn, shooter, handIn, stack, itemstack, afloat[i], flag, velocityIn, inaccuracyIn, 0.0F);
@@ -120,30 +115,30 @@ public class CrossbowHelper {
 		CrossbowItem.onCrossbowShot(worldIn, shooter, stack);
 	}
 
-	private static void fireProjectile(World worldIn, LivingEntity shooter, Hand handIn, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean isCreativeMode, float velocity, float inaccuracy, float projectileAngle) {
+	private static void fireProjectile(Level worldIn, LivingEntity shooter, InteractionHand handIn, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean isCreativeMode, float velocity, float inaccuracy, float projectileAngle) {
 		if (!worldIn.isClientSide) {
 			boolean flag = projectile.getItem() == Items.FIREWORK_ROCKET;
-			ProjectileEntity projectileentity;
+			Projectile projectileentity;
 			if (flag) {
 				projectileentity = new FireworkRocketEntity(worldIn, projectile, shooter, shooter.getX(), shooter.getEyeY() - 0.15F, shooter.getZ(), true);
 			} else {
 				projectileentity = CrossbowItem.getArrow(worldIn, shooter, crossbow, projectile);
 				if (isCreativeMode || projectileAngle != 0.0F || CrossbowHelper.hasSharpshooterEnchantment(crossbow)) {
-					((AbstractArrowEntity) projectileentity).pickup = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+					((AbstractArrow) projectileentity).pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
 
 					if (CrossbowHelper.hasSharpshooterEnchantment(crossbow)) {
-						((AbstractArrowEntity) projectileentity).addTag(CrossbowHelper.sharpshooterTagPrefix + CrossbowHelper.getSharpshooterLevel(crossbow));
+						((AbstractArrow) projectileentity).addTag(CrossbowHelper.sharpshooterTagPrefix + CrossbowHelper.getSharpshooterLevel(crossbow));
 					}
 				}
 			}
 
-			if (shooter instanceof ICrossbowUser) {
-				ICrossbowUser icrossbowuser = (ICrossbowUser)shooter;
+			if (shooter instanceof CrossbowAttackMob) {
+				CrossbowAttackMob icrossbowuser = (CrossbowAttackMob)shooter;
 				icrossbowuser.shootCrossbowProjectile(icrossbowuser.getTarget(), crossbow, projectileentity, projectileAngle);
 			} else {
-				Vector3d vector3d1 = shooter.getUpVector(1.0F);
+				Vec3 vector3d1 = shooter.getUpVector(1.0F);
 				Quaternion quaternion = new Quaternion(new Vector3f(vector3d1), projectileAngle, true);
-				Vector3d vector3d = shooter.getViewVector(1.0F);
+				Vec3 vector3d = shooter.getViewVector(1.0F);
 				Vector3f vector3f = new Vector3f(vector3d);
 				vector3f.transform(quaternion);
 				projectileentity.shoot(vector3f.x(), vector3f.y(), vector3f.z(), velocity, inaccuracy);
@@ -153,7 +148,7 @@ public class CrossbowHelper {
 				p_220017_1_.broadcastBreakEvent(handIn);
 			});
 			worldIn.addFreshEntity(projectileentity);
-			worldIn.playSound((PlayerEntity)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, soundPitch);
+			worldIn.playSound((Player)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundSource.PLAYERS, 1.0F, soundPitch);
 		}
 	}
 

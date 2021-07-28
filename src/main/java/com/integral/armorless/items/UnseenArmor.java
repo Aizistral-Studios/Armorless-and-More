@@ -6,26 +6,25 @@ import com.google.common.collect.Multimaps;
 import com.integral.armorless.ArmorlessMod;
 import com.integral.armorless.materials.ArmorlessMaterials;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 
 public class UnseenArmor extends ArmorItem {
 
-	public UnseenArmor(EquipmentSlotType slot) {
+	public UnseenArmor(EquipmentSlot slot) {
 		super(ArmorlessMaterials.UNSEEN, slot,
 				new Item.Properties()
 				.durability(0)
 				.stacksTo(1)
-				.tab(ItemGroup.TAB_COMBAT)
+				.tab(CreativeModeTab.TAB_COMBAT)
 				.setNoRepair()
 				.rarity(Rarity.UNCOMMON));
 
@@ -33,12 +32,12 @@ public class UnseenArmor extends ArmorItem {
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
+	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 		return super.getArmorTexture(stack, entity, slot, type);
 	}
 
 	@Override
-	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
 		return HashMultimap.create();
 	}
 
