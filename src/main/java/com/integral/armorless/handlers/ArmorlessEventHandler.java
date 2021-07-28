@@ -54,11 +54,11 @@ public class ArmorlessEventHandler {
 			 */
 
 			int i = crossbow.getUseDuration(crossbowStack) - event.getDuration();
-			float f = CrossbowItem.getCharge(i, crossbowStack);
+			float f = CrossbowItem.getPowerForTime(i, crossbowStack);
 			if (f >= 1.0F && !CrossbowItem.isCharged(crossbowStack) && CrossbowHelper.hasAmmo(event.getEntityLiving(), crossbowStack)) {
 				CrossbowItem.setCharged(crossbowStack, true);
 				SoundCategory soundcategory = event.getEntityLiving() instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE;
-				event.getEntityLiving().world.playSound((PlayerEntity) null, event.getEntityLiving().getPosX(), event.getEntityLiving().getPosY(), event.getEntityLiving().getPosZ(), SoundEvents.ITEM_CROSSBOW_LOADING_END, soundcategory, 1.0F, 1.0F / (ArmorlessEventHandler.theySeeMeRollin.nextFloat() * 0.5F + 1.0F) + 0.2F);
+				event.getEntityLiving().level.playSound((PlayerEntity) null, event.getEntityLiving().getX(), event.getEntityLiving().getY(), event.getEntityLiving().getZ(), SoundEvents.CROSSBOW_LOADING_END, soundcategory, 1.0F, 1.0F / (ArmorlessEventHandler.theySeeMeRollin.nextFloat() * 0.5F + 1.0F) + 0.2F);
 			}
 
 		}
@@ -91,14 +91,14 @@ public class ArmorlessEventHandler {
 				 */
 
 				if (CrossbowItem.isCharged(itemstack)) {
-					CrossbowHelper.fireProjectiles(event.getWorld(), event.getPlayer(), event.getHand(), itemstack, CrossbowItem.func_220013_l(itemstack), 1.0F);
+					CrossbowHelper.fireProjectiles(event.getWorld(), event.getPlayer(), event.getHand(), itemstack, CrossbowItem.getShootingPower(itemstack), 1.0F);
 					CrossbowItem.setCharged(itemstack, false);
 					event.setCancellationResult(ActionResultType.CONSUME);
-				} else if (!event.getPlayer().findAmmo(itemstack).isEmpty()) {
+				} else if (!event.getPlayer().getProjectile(itemstack).isEmpty()) {
 					if (!CrossbowItem.isCharged(itemstack)) {
-						((CrossbowItem) Items.CROSSBOW).isLoadingStart = false;
-						((CrossbowItem) Items.CROSSBOW).isLoadingMiddle = false;
-						event.getPlayer().setActiveHand(event.getHand());
+						((CrossbowItem) Items.CROSSBOW).startSoundPlayed = false;
+						((CrossbowItem) Items.CROSSBOW).midLoadSoundPlayed = false;
+						event.getPlayer().startUsingItem(event.getHand());
 					}
 					event.setCancellationResult(ActionResultType.CONSUME);
 				} else {
@@ -114,8 +114,8 @@ public class ArmorlessEventHandler {
 		if (ArmorlessEventHandler.isEnigmaticLegacyLoaded())
 			return;
 
-		if (event.getSource() != null && event.getSource().getImmediateSource() instanceof AbstractArrowEntity) {
-			AbstractArrowEntity arrow = (AbstractArrowEntity) event.getSource().getImmediateSource();
+		if (event.getSource() != null && event.getSource().getDirectEntity() instanceof AbstractArrowEntity) {
+			AbstractArrowEntity arrow = (AbstractArrowEntity) event.getSource().getDirectEntity();
 
 			for (String tag : arrow.getTags()) {
 

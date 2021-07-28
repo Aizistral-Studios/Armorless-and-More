@@ -23,9 +23,9 @@ public class UnseenArmor extends ArmorItem {
 	public UnseenArmor(EquipmentSlotType slot) {
 		super(ArmorlessMaterials.UNSEEN, slot,
 				new Item.Properties()
-				.maxDamage(0)
-				.maxStackSize(1)
-				.group(ItemGroup.COMBAT)
+				.durability(0)
+				.stacksTo(1)
+				.tab(ItemGroup.TAB_COMBAT)
 				.setNoRepair()
 				.rarity(Rarity.UNCOMMON));
 

@@ -27,8 +27,8 @@ public class CeaselessEnchantment extends Enchantment {
 	}
 
 	@Override
-	protected boolean canApplyTogether(final Enchantment ench) {
-		return super.canApplyTogether(ench);
+	protected boolean checkCompatibility(final Enchantment ench) {
+		return super.checkCompatibility(ench);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class CeaselessEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean isTreasureEnchantment() {
+	public boolean isTreasureOnly() {
 		return false;
 	}
 

@@ -29,7 +29,7 @@ public class SharpshooterEnchantment extends Enchantment {
 	}
 
 	@Override
-	protected boolean canApplyTogether(final Enchantment ench) {
+	protected boolean checkCompatibility(final Enchantment ench) {
 		return ench != Enchantments.MULTISHOT && ench != Enchantments.PIERCING;
 	}
 
@@ -39,7 +39,7 @@ public class SharpshooterEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean isTreasureEnchantment() {
+	public boolean isTreasureOnly() {
 		return false;
 	}
 

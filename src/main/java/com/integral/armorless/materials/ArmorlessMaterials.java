@@ -12,8 +12,8 @@ import net.minecraft.util.SoundEvents;
 import java.util.function.Supplier;
 
 public enum ArmorlessMaterials implements IArmorMaterial {
-    UNSEEN(ArmorlessMod.MODID + ":unseen", 0, new int[] { 0, 0, 0, 0 }, 16, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0F, () -> {
-    	return Ingredient.fromItems(Items.IRON_INGOT);
+    UNSEEN(ArmorlessMod.MODID + ":unseen", 0, new int[] { 0, 0, 0, 0 }, 16, SoundEvents.ARMOR_EQUIP_IRON, 0F, () -> {
+    	return Ingredient.of(Items.IRON_INGOT);
     });
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 };
@@ -36,29 +36,29 @@ public enum ArmorlessMaterials implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlotType slot) {
+    public int getDurabilityForSlot(EquipmentSlotType slot) {
     	int durability = ArmorlessMaterials.MAX_DAMAGE_ARRAY[slot.getIndex()] * this.maxDamageFactor;
         return durability;
     }
 
     @Override
-    public int getDamageReductionAmount(EquipmentSlotType slot) {
+    public int getDefenseForSlot(EquipmentSlotType slot) {
         return this.damageReductionAmountArray[slot.getIndex()];
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return this.enchantability;
     }
 
     @Override
-    public SoundEvent getSoundEvent() {
+    public SoundEvent getEquipSound() {
         return this.soundEvent;
     }
 
     @Override
-    public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+    public Ingredient getRepairIngredient() {
+        return this.repairMaterial.get();
     }
 
     @Override
