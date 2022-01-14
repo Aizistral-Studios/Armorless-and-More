@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "armorless:phantom_ingot"
+            "items": ["armorless:phantom_ingot"]
           }
         ]
       }
